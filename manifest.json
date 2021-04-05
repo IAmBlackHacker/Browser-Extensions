@@ -1,0 +1,16 @@
+{
+	"name" : "Json Beautifier",
+	"description" : "Json Beautifier", 
+	"version" : "1.0.2",
+	"manifest_version" : 2,
+	"background": {
+		"scripts" : ["background.js"],
+		"persistent": false 
+	},
+	"browser_action": {
+		"default_title": "Json Beautifier"
+	},
+	"permissions": [
+    	"activeTab"
+  	]
+}

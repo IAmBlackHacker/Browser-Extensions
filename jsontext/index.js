@@ -55,24 +55,38 @@ function jsonBeautify(data){
 }
 
 function addJsonInputTextBox(){
-	let html_code = "<div style='padding: 8px;box-sizing: border-box;border-radius: 8px;position: fixed; top: 20px; right: 10px;background: white;box-shadow: 0 0 5px grey'> " +
-		"<div class='header' style='min-width: 300px;'> Json Beautifier</div>" +
+	let html_code = "<div id='json_box' style='padding: 8px;box-sizing: border-box;border-radius: 8px;position: fixed; top: 20px; right: 10px;background: white;box-shadow: 0 0 5px grey'> " +
+		"<div class='header' style='min-width: 300px;'> Json Beautifier <div id='json_box_close' style='background: red;float: right;cursor: pointer;padding: 2px;border-radius: 2px;margin-bottom: 2px;'>X</div></div>" +
 		"<div class='body' style='padding-right: 12px;'><textarea style='width: 100%;resize: vertical;padding: 6px;' placeholder='Add new json here, vertically extendiable' rows='12' id='json_text'></textarea></div>" +
 		"</div>";
 	document.documentElement.innerHTML  += html_code;
 }
 
-let html_data = document.documentElement.innerText;
-document.documentElement.innerHTML = "<div id='json_content'></div>";
-jsonBeautify(html_data);
-addJsonInputTextBox();
+function showJsonBox(){
+	document.getElementById("json_box").hidden = false;
+}
+try {
+	let html_data = document.documentElement.innerText;
+	document.documentElement.innerHTML = "<div id='json_content'></div>";
+	jsonBeautify(html_data);
+	addJsonInputTextBox();
+	showJsonBox();
 
-document.addEventListener('keyup', function(e){
-	if(e.target && e.target.id === 'json_text'){
-		if(e.target.value.length === 0){
-			jsonBeautify(html_data);
-		}else {
-			jsonBeautify(e.target.value);
+	document.addEventListener('keyup', function (e) {
+		if (e.target && e.target.id === 'json_text') {
+			if (e.target.value.length === 0) {
+				jsonBeautify(html_data);
+			} else {
+				jsonBeautify(e.target.value);
+			}
 		}
-	}
-});
+	});
+
+	document.addEventListener('click', function (e) {
+		if (e.target && e.target.id === 'json_box_close') {
+			document.getElementById("json_box").hidden = true;
+		}
+	});
+} catch (e) {
+	showJsonBox();
+}

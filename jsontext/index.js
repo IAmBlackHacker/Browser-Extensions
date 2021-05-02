@@ -1,14 +1,13 @@
-function jsonBeautify(){
-	let data = document.documentElement.innerText.replace(/ /g, '');
+function jsonBeautify(data){
 	let tabs = 0;
 	let modified = "";
 	let span = false;
 	let stringStart = false;
 
 	for (let i in data){
+		data = data.replace(/ /g, '').replace(/\n/g, '');
 		let c = data.charAt(i);
 
-		console.log(c);
 		if(c === '"'){
 			stringStart = !stringStart;
 			modified += c;
@@ -52,7 +51,28 @@ function jsonBeautify(){
 			modified += c;
 		}
 	}
-	document.documentElement.innerHTML = "<pre>" + modified + "<pre>";
+	document.getElementById("json_content").innerHTML = "<pre>" + modified + "<pre>";
 }
 
-jsonBeautify();
+function addJsonInputTextBox(){
+	let html_code = "<div style='padding: 8px;box-sizing: border-box;border-radius: 8px;position: fixed; top: 20px; right: 10px;background: white;box-shadow: 0 0 5px grey'> " +
+		"<div class='header' style='min-width: 300px;'> Json Beautifier</div>" +
+		"<div class='body' style='padding-right: 12px;'><textarea style='width: 100%;resize: vertical;padding: 6px;' placeholder='Add new json here, vertically extendiable' rows='12' id='json_text'></textarea></div>" +
+		"</div>";
+	document.documentElement.innerHTML  += html_code;
+}
+
+let html_data = document.documentElement.innerText;
+document.documentElement.innerHTML = "<div id='json_content'></div>";
+jsonBeautify(html_data);
+addJsonInputTextBox();
+
+document.addEventListener('keyup', function(e){
+	if(e.target && e.target.id === 'json_text'){
+		if(e.target.value.length === 0){
+			jsonBeautify(html_data);
+		}else {
+			jsonBeautify(e.target.value);
+		}
+	}
+});

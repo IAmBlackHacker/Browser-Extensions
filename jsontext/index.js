@@ -5,7 +5,7 @@ function jsonBeautify(data){
 	let stringStart = false;
 
 	for (let i in data){
-		data = data.replace(/ /g, '').replace(/\n/g, '');
+		data = data.replace(/\s+(?=([^"]*"[^"]*")*[^"]*$)/g, '').replace(/\n/g, '');
 		let c = data.charAt(i);
 
 		if(c === '"'){
@@ -65,7 +65,8 @@ function addJsonInputTextBox(){
 function showJsonBox(){
 	document.getElementById("json_box").hidden = false;
 }
-try {
+
+if(document.getElementById("json_box") == null){
 	let html_data = document.documentElement.innerText;
 	document.documentElement.innerHTML = "<div id='json_content'></div>";
 	jsonBeautify(html_data);
@@ -87,6 +88,6 @@ try {
 			document.getElementById("json_box").hidden = true;
 		}
 	});
-} catch (e) {
+} else {
 	showJsonBox();
 }
